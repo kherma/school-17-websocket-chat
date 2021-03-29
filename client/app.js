@@ -95,6 +95,8 @@ const addMessage = (author, content) => {
     "li",
     author === userName
       ? `${classes.join(" ")} message--self`
+      : author === "Chat Bot"
+      ? `${classes.join(" ")} message--bot`
       : `${classes.join(" ")}`
   );
   // Check if author is same as userName and add correct heading

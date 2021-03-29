@@ -78,6 +78,10 @@ p {
   align-items: flex-end;
 }
 
+.message--bot {
+  font-style: italic;
+}
+
 .message--received {
   animation: fadeIn;
   animation-duration: 3s;

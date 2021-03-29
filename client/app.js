@@ -65,6 +65,9 @@ const login = (event) => {
   event.preventDefault();
   if (isFieldEmpty(userNameInput.value)) {
     userName = userNameInput.value;
+    socket.emit("join", {
+      name: userName,
+    });
     loginForm.classList.remove("show");
     messagesSection.classList.add("show");
   }

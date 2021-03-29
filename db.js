@@ -1,4 +1,7 @@
 // =====================
 // Database
 // =====================
-module.exports = [];
+module.exports = {
+  messages: [],
+  users: [],
+};

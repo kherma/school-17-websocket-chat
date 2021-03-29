@@ -5,7 +5,7 @@
 const express = require("express");
 const path = require("path");
 const socket = require("socket.io");
-const db = require("./db");
+const data = require("./db");
 
 // =====================
 // Server Settings
@@ -13,6 +13,7 @@ const db = require("./db");
 
 const port = 8000;
 const app = express();
+const { messages, users } = data;
 
 // =====================
 // Middleware
@@ -41,13 +42,20 @@ const io = socket(server);
 
 io.on("connection", (socket) => {
   console.log("New client! Its id – " + socket.id);
+  socket.on("join", (username) => {
+    console.log("Oh, I've got new user  " + username.name);
+    users.push({ ...username, id: socket.id });
+    console.log(users);
+  });
   socket.on("message", (message) => {
     console.log("Oh, I've got something from " + socket.id);
-    db.push(message);
+    messages.push(message);
     socket.broadcast.emit("message", message);
   });
   socket.on("disconnect", () => {
     console.log("Oh, socket " + socket.id + " has left");
+    const index = users.indexOf(users.find((user) => user.id === socket.id));
+    users.splice(index, 1);
   });
   console.log("I've added a listener on message and disconnect events \n");
 });

@@ -13,6 +13,7 @@ const messageContentInput = document.getElementById("message-content");
 // Global variables
 // =====================
 
+const socket = io();
 let userName;
 
 // =====================
@@ -32,6 +33,8 @@ loginForm.addEventListener("submit", (event) => {
 addMessageForm.addEventListener("submit", (event) => {
   sendMessage(event);
 });
+
+socket.on("message", ({ author, content }) => addMessage(author, content));
 
 // =====================
 // Utils functions
@@ -72,6 +75,10 @@ const sendMessage = (event) => {
   event.preventDefault();
   if (isFieldEmpty(messageContentInput.value)) {
     addMessage(userName, messageContentInput.value);
+    socket.emit("message", {
+      author: userName,
+      content: messageContentInput.value,
+    });
     messageContentInput.value = "";
   }
 };
